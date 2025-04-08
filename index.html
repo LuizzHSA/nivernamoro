@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feliz Aniversário de Namoro</title>
+  <style>
+    body {
+      background: url('fundo.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Times New Roman', serif;
+      color: white;
+      margin: 0;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2 {
+      text-align: center;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    h1 {
+      font-size: 2.8em;
+      margin-top: 30px;
+    }
+
+    h2 {
+      font-size: 1.8em;
+      margin-top: 10px;
+    }
+
+    .botao-comecar {
+      display: block;
+      margin: 40vh auto;
+      padding: 16px 32px;
+      font-size: 1.4em;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid white;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .botao-comecar:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      color: black;
+    }
+
+    #conteudo {
+      display: none;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+
+    #conteudo.visivel {
+      display: block;
+      opacity: 1;
+    }
+
+    #mensagem p {
+      font-size: 1.2em;
+      margin: 20px auto;
+      text-align: center;
+      max-width: 700px;
+    }
+
+    .player-foto {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin: 30px auto;
+      max-width: 90%;
+    }
+
+    .foto {
+      width: 300px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .heart {
+      position: absolute;
+      color: red;
+      font-size: 2em;
+      animation: floatUp 4s infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-10vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <button class="botao-comecar" onclick="mostrarConteudo()">Começar 💌</button>
+
+  <div id="conteudo">
+    <h1 id="titulo">Feliz Aniversário de Namoro, Meu Amor!❤️</h1>
+
+    <div id="mensagem">
+      <p>
+        Há quase um tempo atrás, no inicio do nosso relacionamento, conheci você, na primeira vez em que te vi, percebi
+        que seria você a mulher escolhida e que seria aquela mulher para mim, vejo tantas coisas boas em que torna você
+        especial para mim, você me demonstrou carinho, amor e paixao e como eu poderia ter uma mulher ao meu lado! me
+        apoiando e me ajudando em tudo, sempre estarei ao seu lado também, sempre demonstrando amor, e carinho que eu
+        tenho por você, e futuramente que possamos continuar juntos para o caminho da fé e que possmos construir nosso
+        futuro e nosso sonhos juntos!! apesar das discussões ou dificuldades do nosso relacionamento sempre te amarei
+        porque você é minha conjugue! e que possamos enfrentar todas as dificuldades e obstáculos em nossa frente! e
+        hoje é o nosso dia tão especial! Felizzz 6 meses ao seu lado amor ❤! amoooo muito você
+      </p>
+    </div>
+
+    <div class="player-foto">
+      <img class="foto" src="fotojuntos.jpg" alt="Nossa Foto Juntos">
+      <audio controls autoplay loop>
+        <source src="musica.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+
+    <h2 id="contador"></h2>
+
+
+    <script>
+      function atualizarContador() {
+        const dataNamoro = new Date("2022-06-15T00:00:00");
+        const agora = new Date();
+
+        let anos = agora.getFullYear() - dataNamoro.getFullYear();
+        let meses = agora.getMonth() - dataNamoro.getMonth();
+        let dias = agora.getDate() - dataNamoro.getDate();
+        let horas = agora.getHours() - dataNamoro.getHours();
+        let minutos = agora.getMinutes() - dataNamoro.getMinutes();
+        let segundos = agora.getSeconds() - dataNamoro.getSeconds();
+
+        if (segundos < 0) {segundos += 60; minutos--;}
+        if (minutos < 0) {minutos += 60; horas--;}
+        if (horas < 0) {horas += 24; dias--;}
+        if (dias < 0) {
+          meses--;
+          let ultimoMes = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
+          dias += ultimoMes;
+        }
+        if (meses < 0) {meses += 12; anos--;}
+
+        document.getElementById("contador").innerText =
+          `Estamos juntos há ${anos} anos, ${meses} meses, ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos!`;
+      }
+
+      let contadorRodando = false;
+
+      function mostrarConteudo() {
+        document.querySelector(".botao-comecar").style.display = "none";
+        const conteudo = document.getElementById("conteudo");
+        conteudo.classList.add("visivel");
+
+        if (!contadorRodando) {
+          atualizarContador();
+          setInterval(atualizarContador, 1000);
+          contadorRodando = true;
+        }
+
+        document.getElementById("titulo").scrollIntoView({behavior: "smooth"});
+      }
+
+      function createHeart() {
+        const heart = document.createElement("div");
+        heart.innerHTML = "❤️";
+        heart.classList.add("heart");
+        document.body.appendChild(heart);
+
+        const left = Math.random() * window.innerWidth;
+        heart.style.left = `${left}px`;
+        heart.style.top = "100vh";
+        heart.style.animationDuration = `${2 + Math.random() * 3}s`;
+
+        setTimeout(() => heart.remove(), 4000);
+      }
+
+      setInterval(createHeart, 300);
+    </script>
+</body>
+
+</html>
